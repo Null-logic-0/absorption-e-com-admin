@@ -1,3 +1,4 @@
+import { login } from "@/_lib/actions";
 import FormSubmit from "./FormSubmit";
 import Input from "./Input";
 
@@ -7,7 +8,10 @@ function AuthForm() {
       <h1 className="font-extrabold text-white text-2xl bg-[#000000] p-2 text-center">
         The Absorption Company.
       </h1>
-      <form className="bg-[#fafafa] flex flex-col gap-8 p-5 rounded-b">
+      <form
+        className="bg-[#fafafa] flex flex-col gap-8 p-5 rounded-b"
+        action={login}
+      >
         <Input
           type="email"
           name="email"
