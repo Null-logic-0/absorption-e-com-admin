@@ -4,7 +4,7 @@ import { login } from "@/_lib/actions";
 import FormSubmit from "./FormSubmit";
 import Input from "./Input";
 import { useActionState } from "react";
-import FormError from "./Formerror";
+import FormError from "./FormError";
 
 function AuthForm() {
   const [formState, formAction] = useActionState(login, { errors: {} });
