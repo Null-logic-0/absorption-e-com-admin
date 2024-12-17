@@ -1,5 +1,6 @@
+import LogoutButton from "@/Components/LogoutButton";
 import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/dist/server/api-utils";
+import { redirect } from "next/navigation";
 
 async function MainPage() {
   const supabase = await createClient();
@@ -11,7 +12,12 @@ async function MainPage() {
   if (!user) {
     return redirect("/");
   }
-  return <div>Dashboard</div>;
+  return (
+    <div>
+      Dashboard
+      <LogoutButton />
+    </div>
+  );
 }
 
 export default MainPage;
