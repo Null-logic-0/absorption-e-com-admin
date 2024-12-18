@@ -4,6 +4,9 @@
 
 @layer base {
   body {
-    @apply bg-[#f7f6f2]; /* Replace with your desired color */
+    @apply bg-[#f7f6f2];
+  }
+  .nav-icon {
+    @apply w-6 h-6;
   }
 }
