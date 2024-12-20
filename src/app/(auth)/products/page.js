@@ -1,10 +1,16 @@
-import ProductsForm from "@/Components/Products/ProductsForm";
+import { getProducts } from "@/_lib/data-services";
+import ProductsTable from "@/Components/Products/ProductsTable";
 
-function ProductsPage() {
+async function ProductsPage() {
+  const products = await getProducts();
+
   return (
-    <div className="w-[600px]">
-      <ProductsForm />
-    </div>
+    <>
+      <div>
+        <h1 className="font-bold text-3xl">All Products</h1>
+      </div>
+      <ProductsTable data={products} />
+    </>
   );
 }
 
