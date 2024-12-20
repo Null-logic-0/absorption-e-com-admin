@@ -1,5 +1,4 @@
 import "./globals.css";
-
 export const metadata = {
   title: "The Absorption Company",
   description: "The Absorption Company Admin Panel.",
