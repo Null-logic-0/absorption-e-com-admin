@@ -1,29 +1,40 @@
 "use client";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-function ImagePicker({ name, label }) {
-  const [pickedImage, setPickedImage] = useState();
+function ImagePicker({ name, label, defaultImage }) {
+  const [pickedImage, setPickedImage] = useState(defaultImage || null);
+  const [isImageUpdated, setIsImageUpdated] = useState(false);
   const imageInput = useRef();
+
+  useEffect(() => {
+    if (!isImageUpdated) {
+      setPickedImage(defaultImage || null);
+    }
+  }, [defaultImage, isImageUpdated]);
 
   function handlePickClick() {
     imageInput.current.click();
   }
 
-  function handleClearImage() {
+  function handleClearImage(e) {
+    e.preventDefault();
     setPickedImage(null);
+    setIsImageUpdated(false);
   }
 
   function handleImageChange(event) {
     const file = event.target.files[0];
     if (!file) {
       setPickedImage(null);
+      setIsImageUpdated(false);
       return;
     }
 
     const fileReader = new FileReader();
     fileReader.onload = () => {
       setPickedImage(fileReader.result);
+      setIsImageUpdated(true);
     };
     fileReader.readAsDataURL(file);
   }
@@ -35,11 +46,22 @@ function ImagePicker({ name, label }) {
       </label>
       <div>
         <div className="group w-[140px] h-[140px] border-[#4c5663] border-2 flex justify-center items-center text-center relative">
-          {!pickedImage && (
+          {!pickedImage ||
+            !isImageUpdated ||
+            (defaultImage && (
+              <Image
+                src={defaultImage}
+                alt="default image"
+                fill
+                className="object-cover cursor-pointer"
+                onClick={handlePickClick}
+              />
+            ))}
+          {(!pickedImage || !defaultImage) && (
             <button
               type="button"
               onClick={handlePickClick}
-              className=" text-gray-600 font-medium text-md"
+              className="text-gray-600 font-medium text-md"
             >
               Pick an Image
             </button>
@@ -50,6 +72,7 @@ function ImagePicker({ name, label }) {
               alt="selected image"
               fill
               className="object-cover cursor-pointer"
+              onClick={handlePickClick}
             />
           )}
           {pickedImage && (
@@ -66,11 +89,16 @@ function ImagePicker({ name, label }) {
         className="hidden"
         type="file"
         id={name}
-        accept="image/png, image/jpeg, "
+        accept="image/png, image/jpeg"
         name={name}
         ref={imageInput}
         onChange={handleImageChange}
-        required
+      />
+
+      <input
+        type="hidden"
+        name="defaultImage"
+        value={pickedImage || defaultImage || ""}
       />
     </div>
   );

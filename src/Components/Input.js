@@ -1,10 +1,12 @@
-function Input({ label, id, name, type, htmlFor }) {
+function Input({ label, id, name, type, htmlFor, defaultValue, onChange }) {
   return (
     <div className="flex flex-col gap-1 w-full">
       <label htmlFor={htmlFor} className="font-semibold text-sm">
         {label}
       </label>
       <input
+        defaultValue={defaultValue}
+        onChange={onChange}
         type={type}
         name={name}
         id={id}

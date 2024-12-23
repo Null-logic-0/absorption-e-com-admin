@@ -2,6 +2,11 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
+import { supabase } from "@/utils/supabase/supabaseClient";
+import {
+  createOrUpdateProductInDatabase,
+  createProduct,
+} from "./data-services";
 
 export async function login(prevState, formData) {
   const email = formData.get("email");
@@ -111,4 +116,50 @@ export async function signup(prevState, formData) {
   } catch (error) {
     return { errors: { general: "Something went wrong. Please try again." } };
   }
+}
+
+export async function createOrUpdateProduct(prevState, formData) {
+  const title = formData.get("title");
+  const description = formData.get("description");
+  const price = formData.get("price");
+  const image = formData.get("image");
+  const discount = formData.get("discount");
+  const id = formData.get("id");
+
+  const data = {
+    id,
+    title,
+    description,
+    price,
+    image,
+    discount,
+  };
+
+  let errors = {};
+
+  if (!image || (typeof image === "string" && !image.trim())) {
+    errors.image = "Image is required!";
+  }
+  if (!title?.trim()) errors.title = "Title is required!";
+  if (!description?.trim()) errors.description = "Description is requried!";
+  if (!price?.trim()) errors.price = "Price is required!";
+
+  if (Object.keys(errors).length > 0) {
+    return { errors };
+  }
+
+  await createOrUpdateProductInDatabase(data);
+  revalidatePath("/products");
+  redirect("/products");
+}
+
+export async function deleteProduct(id) {
+  const { error } = await supabase.from("products").delete().eq("id", id);
+
+  if (error) {
+    throw new Error("product could not be deleted");
+  }
+
+  revalidatePath("/products");
+  redirect("/products");
 }
