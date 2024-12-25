@@ -1,3 +1,4 @@
+import { createClient } from "@/utils/supabase/server";
 import { supabase } from "@/utils/supabase/supabaseClient";
 
 export async function getProducts() {
@@ -114,5 +115,14 @@ export async function createOrUpdateProductInDatabase({
     );
   }
 
+  return data;
+}
+
+export async function getUser() {
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data?.user) {
+    redirect("/");
+  }
   return data;
 }

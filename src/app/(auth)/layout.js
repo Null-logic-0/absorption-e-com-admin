@@ -9,15 +9,6 @@ export const metadata = {
 };
 
 export default async function AutRootLayout({ children }) {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return redirect("/");
-  }
   return (
     <div className="flex flex-col h-screen">
       <Header />
