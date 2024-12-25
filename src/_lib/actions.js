@@ -235,3 +235,14 @@ export async function updateUser(prevState, formData) {
     return { error: error.message };
   }
 }
+
+export async function deleteContact(id) {
+  const { error } = await supabase.from("contacts").delete().eq("id", id);
+
+  if (error) {
+    throw new Error("contacts could not be deleted");
+  }
+
+  revalidatePath("/contacts");
+  redirect("/contacts");
+}

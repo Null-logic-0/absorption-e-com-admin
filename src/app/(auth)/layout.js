@@ -5,7 +5,7 @@ import NavMenu from "@/Components/NavMenu";
 import Header from "@/Components/Header";
 
 export const metadata = {
-  title: "The Absorption Company / Login page",
+  title: "The Absorption Company",
 };
 
 export default async function AutRootLayout({ children }) {

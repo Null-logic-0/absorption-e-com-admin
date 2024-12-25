@@ -126,3 +126,27 @@ export async function getUser() {
   }
   return data;
 }
+
+export async function getContacts() {
+  const { data: contacts, error } = await supabase.from("contacts").select("*");
+
+  if (error) {
+    throw new Error("Contacts could not be loaded");
+  }
+
+  return contacts;
+}
+
+export async function getSingleContact(id) {
+  let { data: contact, error } = await supabase
+    .from("contacts")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    throw new Error("Contact could not be loaded");
+  }
+
+  return contact;
+}

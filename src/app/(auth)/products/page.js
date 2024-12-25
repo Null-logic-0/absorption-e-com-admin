@@ -1,4 +1,5 @@
 import { getProducts } from "@/_lib/data-services";
+import Heading from "@/Components/Heading";
 import AddProducts from "@/Components/Products/AddProducts";
 import Products from "@/Components/Products/Products";
 import ProductsTableOperations from "@/Components/Products/ProductsTableOperations";
@@ -11,7 +12,7 @@ async function ProductsPage() {
   return (
     <>
       <div className="flex justify-between items-center">
-        <h1 className="font-bold text-3xl">All Products</h1>
+        <Heading>All Products</Heading>
         <div className="flex items-center gap-4">
           <AddProducts />
           <ProductsTableOperations />
