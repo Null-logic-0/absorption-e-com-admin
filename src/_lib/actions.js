@@ -3,10 +3,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { supabase } from "@/utils/supabase/supabaseClient";
-import {
-  createOrUpdateProductInDatabase,
-  createProduct,
-} from "./data-services";
+import { createOrUpdateProductInDatabase, getUser } from "./data-services";
 
 export async function login(prevState, formData) {
   const email = formData.get("email");
@@ -28,23 +25,17 @@ export async function login(prevState, formData) {
     return { errors };
   }
   const supabase = await createClient();
-  try {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
 
-    if (error) {
-      if (error.message.includes("invalid credentials")) {
-        errors.general = "Incorrect email or password.";
-      }
+  if (error) {
+    if (error.message.includes("invalid credentials")) {
+      errors.general = "Incorrect email or password.";
     }
-  } catch (error) {
-    return {
-      errors: { general: "An unexpected error occurred. Please try again." },
-    };
   }
-  revalidatePath("/dashboard");
+  revalidatePath("/dashboard", "layout");
   redirect("/dashboard");
 }
 
@@ -162,4 +153,85 @@ export async function deleteProduct(id) {
 
   revalidatePath("/products");
   redirect("/products");
+}
+
+export async function updateUser(prevState, formData) {
+  const password = formData.get("password");
+  const repeatPassword = formData.get("repeatPassword");
+  const fullname = formData.get("fullname");
+  const avatar = formData.get("avatar");
+
+  let errors = {};
+
+  // Validation
+  if (password && password.trim().length < 8) {
+    errors.password = "Password must be at least 8 characters long.";
+  }
+
+  if (password && password !== repeatPassword) {
+    errors.repeatPassword = "Passwords don't match.";
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return { errors };
+  }
+
+  const supabase = await createClient();
+
+  try {
+    // Step 1: Update user details (password and fullname)
+    const updateData = {};
+
+    if (password) {
+      updateData.password = password;
+    }
+
+    if (fullname) {
+      updateData.data = { fullName: fullname };
+    }
+
+    const { data: updatedUser, error: updateError } =
+      await supabase.auth.updateUser(updateData);
+
+    if (updateError) {
+      throw new Error(updateError.message);
+    }
+
+    // Step 2: Handle avatar upload if provided
+    let avatarUrl = null;
+
+    if (avatar instanceof File) {
+      const fileName = `avatar-${updatedUser.user.id}-${Date.now()}`; // Unique filename
+
+      const { error: uploadError } = await supabase.storage
+        .from("avatars")
+        .upload(fileName, avatar, {
+          cacheControl: "3600",
+          upsert: true,
+        });
+
+      if (uploadError) {
+        throw new Error(uploadError.message);
+      }
+
+      avatarUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${fileName}`;
+
+      // Update the user's profile with the avatar URL
+      const { error: avatarUpdateError } = await supabase.auth.updateUser({
+        data: { avatar: avatarUrl },
+      });
+
+      if (avatarUpdateError) {
+        throw new Error(avatarUpdateError.message);
+      }
+    }
+
+    // Revalidate cache and redirect to user page
+    revalidatePath("/user");
+    redirect("/user");
+
+    return { success: true, user: updatedUser.user, avatarUrl };
+  } catch (error) {
+    return { error: error.message };
+  }
 }
