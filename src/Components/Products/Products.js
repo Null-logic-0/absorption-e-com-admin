@@ -22,7 +22,6 @@ function Products({ products }) {
   const sortedProducts = filteredProducts.sort(
     (a, b) => (a[field] - b[field]) * modifier
   );
-  console.log(modifier, "zd");
 
   return <ProductsTable filteredData={sortedProducts} />;
 }
