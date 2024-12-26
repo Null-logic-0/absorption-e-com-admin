@@ -1,7 +1,8 @@
 import { getContacts } from "@/_lib/data-services";
 import ContactsTable from "@/Components/Contacts/ContactsTable";
-import GobackButton from "@/Components/GobackButton";
 import Heading from "@/Components/Heading";
+import Spinner from "@/Components/Spinner";
+import { Suspense } from "react";
 
 async function ContactsPage() {
   const data = await getContacts();
@@ -10,7 +11,9 @@ async function ContactsPage() {
     <>
       <Heading>Contacts</Heading>
 
-      <ContactsTable data={data} />
+      <Suspense fallback={<Spinner />}>
+        <ContactsTable data={data} />
+      </Suspense>
     </>
   );
 }
