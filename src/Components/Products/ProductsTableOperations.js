@@ -1,9 +1,11 @@
 import SortBy from "../SortBy/SortBy";
+import AddProducts from "./AddProducts";
 import Filter from "./Filter";
 
 function ProductsTableOperations() {
   return (
     <>
+      <AddProducts />
       <div className="flex gap-2 items-center">
         <Filter
           filterField="discount"
