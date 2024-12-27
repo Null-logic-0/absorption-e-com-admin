@@ -150,3 +150,41 @@ export async function getSingleContact(id) {
 
   return contact;
 }
+
+export async function getOrders() {
+  const { data: orders, error } = await supabase
+    .from("orders")
+    .select(`* , customers (id,fullName,email) `);
+
+  if (error) {
+    throw new Error("Orders could not be loaded");
+  }
+
+  return orders;
+}
+
+export async function getSingleOrder(id) {
+  const { data: order, error } = await supabase
+    .from("orders")
+    .select(`*,customer (id,fullName,email,country,adress,city,phoneNumber)`)
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    throw new Error("order could not be loaded");
+  }
+
+  return order;
+}
+
+export async function getOrderItems() {
+  const { data: orderItem, error } = await supabase
+    .from("order_items")
+    .select(`* , product_id (id,title,price,discount,image)`);
+
+  if (error) {
+    throw new Error("order could not be loaded");
+  }
+
+  return orderItem;
+}

@@ -11,7 +11,9 @@ function GobackButton() {
   return (
     <button
       onClick={handleGoBack}
-      className="flex items-center text-md gap-2 border border-gray-800 bg-slate-50 shadow-md rounded-md p-2"
+      className="flex items-center border-gray-800 p-2 
+      border-2 cursor-pointer rounded-md font-semibold
+       text-gray-800 bg-transparent hover:bg-slate-100"
     >
       Go Back <IoArrowBackSharp />
     </button>

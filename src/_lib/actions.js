@@ -246,3 +246,26 @@ export async function deleteContact(id) {
   revalidatePath("/contacts");
   redirect("/contacts");
 }
+
+export async function deleteOrder(id) {
+  const { error: orderItemsError } = await supabase
+    .from("order_items")
+    .delete()
+    .eq("order_id", id);
+
+  if (orderItemsError) {
+    throw new Error("Order items could not be deleted");
+  }
+
+  const { error: ordersError } = await supabase
+    .from("orders")
+    .delete()
+    .eq("id", id);
+
+  if (ordersError) {
+    throw new Error("Order could not be deleted");
+  }
+
+  revalidatePath("/orders");
+  redirect("/orders");
+}

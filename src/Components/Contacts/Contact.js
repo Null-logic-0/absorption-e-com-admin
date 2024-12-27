@@ -1,8 +1,9 @@
 "use client";
 import Image from "next/image";
 import noImg from "../../../public/default-user.jpg";
-import DeleteContact from "./DeleteContact";
 import { deleteContact } from "@/_lib/actions";
+import GobackButton from "../GobackButton";
+import DeleteButton from "../DeleteButton";
 function Contact({ contact }) {
   const { image, fullName, subject, message, email, id } = contact;
   return (
@@ -31,13 +32,16 @@ function Contact({ contact }) {
         {message}
       </div>
       <div className="justify-end pt-4 flex gap-4 items-center">
-        <DeleteContact action={() => deleteContact(id)} />
+        <DeleteButton action={() => deleteContact(id)}>
+          Remove Contact
+        </DeleteButton>
         <a
           href={`mailto:${email}`}
           className=" p- bg-gray-900 text-white hover:text-gray-800 hover:bg-transparent border-gray-800 p-2 border-2 cursor-pointer rounded-md font-semibold"
         >
           Send a mail
         </a>
+        <GobackButton />
       </div>
     </div>
   );

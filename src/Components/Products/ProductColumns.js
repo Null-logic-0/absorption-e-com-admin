@@ -6,8 +6,8 @@ import { MdModeEdit } from "react-icons/md";
 
 import Modal from "../Modal";
 import ProductsForm from "./ProductsForm";
-import DeleteButton from "./DeleteButton";
 import { FaTrashCan } from "react-icons/fa6";
+import DeleteModalButton from "./DeleteModalButton";
 
 export const getColumns = () => [
   {
@@ -57,6 +57,19 @@ export const getColumns = () => [
     ),
   },
   {
+    title: "Total Price",
+
+    render: (record) => {
+      const totalPrice = record.price - record.discount;
+
+      return (
+        <span className="text-blue-600 font-semibold">
+          {formatCurrency(totalPrice)}
+        </span>
+      );
+    },
+  },
+  {
     render: (text, record) => (
       <div>
         <Modal>
@@ -76,7 +89,7 @@ export const getColumns = () => [
             </button>
           </Modal.Open>
           <Modal.Window>
-            <DeleteButton id={record.id} />
+            <DeleteModalButton id={record.id} />
           </Modal.Window>
         </Modal>
       </div>

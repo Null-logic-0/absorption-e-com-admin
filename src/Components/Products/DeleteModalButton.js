@@ -3,7 +3,7 @@ import { useFormStatus } from "react-dom";
 import SpinnerMini from "../SpinnerMini";
 import { deleteProduct } from "@/_lib/actions";
 
-function DeleteButton({ id }) {
+function DeleteModalButton({ id }) {
   const { pending } = useFormStatus;
   return (
     <form action={() => deleteProduct(id)} className=" gap-8 flex flex-col">
@@ -19,4 +19,4 @@ function DeleteButton({ id }) {
   );
 }
 
-export default DeleteButton;
+export default DeleteModalButton;

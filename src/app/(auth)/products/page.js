@@ -14,7 +14,6 @@ async function ProductsPage() {
       <div className="flex justify-between items-center">
         <Heading>All Products</Heading>
         <div className="flex items-center gap-4">
-          <AddProducts />
           <ProductsTableOperations />
         </div>
       </div>
