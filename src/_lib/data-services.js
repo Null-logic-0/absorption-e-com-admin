@@ -1,5 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { supabase } from "@/utils/supabase/supabaseClient";
+import { redirect } from "next/navigation";
 
 export async function getProducts() {
   const { data: products, error } = await supabase.from("products").select("*");
