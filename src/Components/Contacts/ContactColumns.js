@@ -1,25 +1,8 @@
 "use client";
-import Image from "next/image";
-import noImg from "../../../public/default-user.jpg";
+
 import Link from "next/link";
 
 export const ContactColumns = () => [
-  {
-    title: "User's profile",
-    dataIndex: "image",
-    key: "image",
-    render: (image, record) => (
-      <Image
-        src={image || noImg}
-        alt={`Image of ${record.title || "Unknown Product"}`}
-        className="object-cover w-[50px] h-[50px] rounded-full shadow-md"
-        width={50}
-        height={50}
-        quality={80}
-        loading="lazy"
-      />
-    ),
-  },
   {
     title: "Full Name",
     dataIndex: "fullName",
