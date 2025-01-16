@@ -34,7 +34,7 @@ function AvatarImagePicker({ name, avatar }) {
     <>
       <div className="flex flex-col items-center  group cursor-pointer">
         <Image
-          src={avatar && pickedImage}
+          src={avatar || pickedImage}
           alt="avatar"
           width={100}
           height={100}

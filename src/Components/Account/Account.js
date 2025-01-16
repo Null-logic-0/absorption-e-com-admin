@@ -41,7 +41,7 @@ function Account({ email, fullName, avatar }) {
           label="Update Password (min 8 characters)*"
         />
 
-        <FormError error={formState.errors.password} />
+        <FormError error={formState.errors?.password} />
         <Input
           type="password"
           name="repeatPassword"
@@ -49,7 +49,7 @@ function Account({ email, fullName, avatar }) {
           htmlFor="repeatPassword"
           label="Repeat Password*"
         />
-        <FormError error={formState.errors.repeatPassword} />
+        <FormError error={formState.errors?.repeatPassword} />
         <div>
           <FormSubmit>Update Profile</FormSubmit>
         </div>

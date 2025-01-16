@@ -17,7 +17,7 @@ async function UserAvatar() {
         height={40}
       />
       <span className="text-md font-semibold text-white">
-        {user ? fullName : "guest"}
+        {user ? fullName : "Guest"}
       </span>
     </Link>
   );
