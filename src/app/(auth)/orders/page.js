@@ -1,4 +1,4 @@
-import { getOrders } from "@/_lib/data-services";
+import { getOrderItems, getOrders } from "@/_lib/data-services";
 import Heading from "@/Components/Heading";
 import Orders from "@/Components/Orders/Orders";
 import OrderTableOperations from "@/Components/Orders/OrderTableOperations";
@@ -6,7 +6,17 @@ import Spinner from "@/Components/Spinner";
 import { Suspense } from "react";
 
 async function OrdersPage() {
-  const orders = await getOrders();
+  const ordersData = await getOrderItems();
+
+  const filteredOrders = Object.values(
+    ordersData.reduce((acc, order) => {
+      const key = `${order.customer_id}-${order.time}`;
+      if (!acc[key]) {
+        acc[key] = order;
+      }
+      return acc;
+    }, {})
+  );
 
   return (
     <>
@@ -18,7 +28,7 @@ async function OrdersPage() {
       </div>
 
       <Suspense fallback={<Spinner />}>
-        <Orders orders={orders} />
+        <Orders orders={filteredOrders} />
       </Suspense>
     </>
   );

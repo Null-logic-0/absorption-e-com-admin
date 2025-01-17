@@ -7,17 +7,10 @@ async function OrderPage({ params }) {
   const { orderSlug } = await params;
   const orderItemData = await getOrderItems();
 
-  const orderItem = orderItemData.filter(
-    (item) => item.order_id === +orderSlug
-  );
-
-  const totalPrice = orderItem.reduce((sum, item) => {
+  const totalPrice = orderItemData.reduce((sum, item) => {
     const { price } = item.product_id;
-    const { quantity } = item;
 
-    const itemTotal = price * quantity;
-
-    return sum + itemTotal;
+    return sum + price;
   }, 0);
 
   return (
@@ -25,9 +18,9 @@ async function OrderPage({ params }) {
       <Heading>Order #{orderSlug}</Heading>
       <OrderInfo id={orderSlug} />
       <OrderItemsTable
-        data={orderItem}
-        totalPrice={totalPrice}
+        data={orderItemData}
         id={orderSlug}
+        totalPrice={totalPrice}
       />
     </>
   );

@@ -14,10 +14,7 @@ function Orders({ orders }) {
         return order.order_status === "pending"; // Show only pending orders
       case "completed":
         return order.order_status === "completed"; // Show only completed orders
-      case "cash":
-        return order.payment_method === "cash"; // Show only cash payments
-      case "credit-card":
-        return order.payment_method === "credit-card"; // Show only credit card payments
+
       default:
         return true;
     }

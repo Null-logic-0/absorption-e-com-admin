@@ -25,16 +25,11 @@ export const OrderItemsColumns = () => [
     dataIndex: "product_id",
     key: "title",
 
-    render: (product) => <span className="font-semibold">{product.title}</span>,
-  },
-  {
-    title: "Quantity",
-    dataIndex: "quantity",
-    key: "quantity",
-    render: (quantity) => (
-      <span className="text-gray-800 font-semibold">{quantity}</span>
+    render: (product) => (
+      <span className="font-semibold">{product?.title}</span>
     ),
   },
+
   {
     title: "Price",
     dataIndex: "product_id",
@@ -43,7 +38,7 @@ export const OrderItemsColumns = () => [
       const totalPrice = product.price * record.quantity;
       return (
         <span className="text-green-800 font-semibold">
-          {formatCurrency(totalPrice)}
+          {formatCurrency(product.price)}
         </span>
       );
     },

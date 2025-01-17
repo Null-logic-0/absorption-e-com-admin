@@ -166,8 +166,10 @@ export async function getOrders() {
 
 export async function getSingleOrder(id) {
   const { data: order, error } = await supabase
-    .from("orders")
-    .select(`*,customer (id,fullName,email,country,adress,city,phoneNumber)`)
+    .from("order_items")
+    .select(
+      `*,customer_id (id,fullName,email,country,adress,city,phoneNumber), product_id (id,title,price,discount,image)`
+    )
     .eq("id", id)
     .single();
 
@@ -181,7 +183,9 @@ export async function getSingleOrder(id) {
 export async function getOrderItems() {
   const { data: orderItem, error } = await supabase
     .from("order_items")
-    .select(`* , product_id (id,title,price,discount,image)`);
+    .select(
+      `* , customer_id (id,fullName,email) ,product_id (id,title,price,discount,image)`
+    );
 
   if (error) {
     throw new Error("order could not be loaded");

@@ -43,9 +43,10 @@ function Stats({ stats, totalProducts }) {
     return a[field] > b[field] ? dirMultiplier : -dirMultiplier;
   });
   const totalOrders = sortedData.length;
+
   const totalSales = sortedData.reduce(
     (acc, cur) =>
-      (cur.product_id.price - cur.product_id.discount) * cur.quantity + acc,
+      cur.product_id.price - cur.product_id.discount + acc + sortedData.length,
     0
   );
 
@@ -55,8 +56,7 @@ function Stats({ stats, totalProducts }) {
       day: "numeric",
     });
 
-    const sales =
-      (cur.product_id.price - cur.product_id.discount) * cur.quantity;
+    const sales = cur.product_id.price - cur.product_id.discount;
 
     const existing = acc.find((item) => item.label === date);
     if (existing) {
