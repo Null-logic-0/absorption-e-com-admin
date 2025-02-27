@@ -9,27 +9,27 @@ import LogoutButton from "./LogoutButton";
 const navLinks = [
   {
     title: "Dashboard",
-    link: "/dashboard",
+    href: "/dashboard",
     icon: <RxDashboard className="nav-icon" />,
   },
   {
     title: "Orders",
-    link: "/orders",
+    href: "/orders",
     icon: <PiShoppingCartSimple className="nav-icon" />,
   },
   {
     title: "Products",
-    link: "/products",
+    href: "/products",
     icon: <BsBoxSeam className="nav-icon" />,
   },
   {
     title: "Create Admin",
-    link: "/createNewAdmin",
+    href: "/createNewAdmin",
     icon: <GrUserAdmin className="nav-icon" />,
   },
   {
     title: "Contacts",
-    link: "/contacts",
+    href: "/contacts",
     icon: <TiContacts className="nav-icon" />,
   },
 ];
@@ -40,7 +40,7 @@ function NavMenu() {
       <ul className="flex flex-col gap-2 h-full py-5 ">
         {navLinks.map((link) => (
           <li key={link.title}>
-            <NavLink href={link.link}>
+            <NavLink href={link.href}>
               {link.icon}
               <span>{link.title}</span>
             </NavLink>
