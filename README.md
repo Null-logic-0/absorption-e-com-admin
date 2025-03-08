@@ -32,3 +32,4 @@ Built with Next.js and Tailwind CSS, it leverages Supabase for backend services 
 Sorry guys i can not give you credentials for login so watch this video 😁
 
 https://youtu.be/atX6HSUvbUY
+*
